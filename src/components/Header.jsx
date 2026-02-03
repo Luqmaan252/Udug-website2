@@ -33,7 +33,7 @@ const Header = ({ onLoginClick, onCartClick }) => {
     return (
         <header>
             <div className="container header-container">
-                <Link to="/" className="logo">UDUD <span>PERFUMES</span>
+                <Link to="/" className="logo">UDUG <span>PERFUMES</span>
                     <span className="somali-subtitle">Soomaali Perfumes & Catars</span>
                 </Link>
 
