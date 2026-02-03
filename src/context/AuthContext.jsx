@@ -42,19 +42,31 @@ export const AuthProvider = ({ children }) => {
 
     const parseAppwriteError = (error) => {
         console.error("Appwrite Error:", error);
+        if (error.message === "Failed to fetch") {
+            return "Connection failed. Please check your internet or ensure this domain is added to Appwrite Platforms.";
+        }
         if (error.code === 429) {
             return "Too many requests. Please try again later.";
         }
         if (error.code === 409) {
             return "Account with this email already exists.";
         }
+        if (error.type === 'user_session_already_active') {
+            return "You are already logged in.";
+        }
         if (error.code === 401) {
-            return "Invalid email or password.";
+            return "Invalid email or password. Please double-check your credentials.";
         }
         if (error.type === 'user_invalid_token') {
             return "Session expired. Please login again.";
         }
-        return error.message || "An unexpected error occurred.";
+        if (error.type === 'password_recently_used') {
+            return "The password you entered has been used recently.";
+        }
+        if (error.type === 'password_personal_data') {
+            return "Password contains personal data and is too weak.";
+        }
+        return error.message || `An unexpected error occurred (${error.code}).`;
     };
 
     const register = async (name, email, phone, password) => {
@@ -96,6 +108,11 @@ export const AuthProvider = ({ children }) => {
             await checkUserStatus();
             return { success: true, message: 'Login successful' };
         } catch (error) {
+            // If session already exists, just refresh user status and consider it a success
+            if (error.type === 'user_session_already_active') {
+                await checkUserStatus();
+                return { success: true, message: 'Login successful' };
+            }
             return { success: false, message: parseAppwriteError(error) };
         }
     };

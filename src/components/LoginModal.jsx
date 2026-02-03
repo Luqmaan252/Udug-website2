@@ -6,7 +6,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     const { login, register } = useAuth();
 
     // Login State
-    const [loginEmail, setLoginEmail] = useState('baarri252@gmail.com');
+    const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [loginError, setLoginError] = useState('');
     const [loginSuccess, setLoginSuccess] = useState('');
@@ -87,16 +87,13 @@ const LoginModal = ({ isOpen, onClose }) => {
             if (result.success) {
                 setRegSuccess(result.message);
                 setTimeout(() => {
-                    setActiveTab('login');
-                    // DO NOT pre-fill fields, let user type them fresh to ensure no state mix-up
-                    setLoginEmail(regEmail);
+                    onClose(); // Close modal since register auto-logins
                     setRegSuccess('');
                     setRegName('');
                     setRegEmail('');
                     setRegPhone('');
                     setRegPassword('');
                     setConfirmPassword('');
-                    setLoginPassword(''); // Ensure password field is clear
                 }, 1500);
             } else {
                 setRegError(result.message);
