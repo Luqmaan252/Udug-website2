@@ -88,6 +88,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 setRegSuccess(result.message);
                 setTimeout(() => {
                     setActiveTab('login');
+                    // DO NOT pre-fill fields, let user type them fresh to ensure no state mix-up
                     setLoginEmail(regEmail);
                     setRegSuccess('');
                     setRegName('');
@@ -95,6 +96,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                     setRegPhone('');
                     setRegPassword('');
                     setConfirmPassword('');
+                    setLoginPassword(''); // Ensure password field is clear
                 }, 1500);
             } else {
                 setRegError(result.message);
