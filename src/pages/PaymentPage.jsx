@@ -30,11 +30,19 @@ const PaymentPage = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        // Redirect if user is not logged in
+        if (!currentUser) {
+            alert('Please log in to place an order');
+            navigate('/');
+            return;
+        }
+
         // Redirect if cart is empty and not showing success
         if (cart.length === 0 && !showSuccess) {
             navigate('/');
         }
-    }, [cart, showSuccess, navigate]);
+    }, [cart, showSuccess, navigate, currentUser]);
 
     const handlePayNow = async () => {
         // Simple validation

@@ -168,7 +168,7 @@ const ContactPage = () => {
                         )}
 
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                            <div className="field-half" style={{ width: 'calc(50% - 10px)' }}>
+                            <div className="field-half">
                                 <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#444', marginBottom: '8px' }}>Name</label>
                                 <input
                                     type="text"
@@ -177,12 +177,12 @@ const ContactPage = () => {
                                     onChange={handleChange}
                                     placeholder="Enter your name"
                                     required
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '8px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
+                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '12px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
                                     onFocus={(e) => { e.target.style.borderColor = '#D4AF37'; e.target.style.backgroundColor = '#fff'; }}
                                     onBlur={(e) => { e.target.style.borderColor = '#e1e1e1'; e.target.style.backgroundColor = '#f9f9f9'; }}
                                 />
                             </div>
-                            <div className="field-half" style={{ width: 'calc(50% - 10px)' }}>
+                            <div className="field-half">
                                 <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#444', marginBottom: '8px' }}>Phone</label>
                                 <input
                                     type="tel"
@@ -191,12 +191,12 @@ const ContactPage = () => {
                                     onChange={handleChange}
                                     placeholder="Phone number"
                                     required
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '8px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
+                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '12px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
                                     onFocus={(e) => { e.target.style.borderColor = '#D4AF37'; e.target.style.backgroundColor = '#fff'; }}
                                     onBlur={(e) => { e.target.style.borderColor = '#e1e1e1'; e.target.style.backgroundColor = '#f9f9f9'; }}
                                 />
                             </div>
-                            <div className="field-half" style={{ width: 'calc(50% - 10px)' }}>
+                            <div className="field-half">
                                 <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#444', marginBottom: '8px' }}>Email</label>
                                 <input
                                     type="email"
@@ -205,12 +205,12 @@ const ContactPage = () => {
                                     onChange={handleChange}
                                     placeholder="Email address"
                                     required
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '8px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
+                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '12px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
                                     onFocus={(e) => { e.target.style.borderColor = '#D4AF37'; e.target.style.backgroundColor = '#fff'; }}
                                     onBlur={(e) => { e.target.style.borderColor = '#e1e1e1'; e.target.style.backgroundColor = '#f9f9f9'; }}
                                 />
                             </div>
-                            <div className="field-half" style={{ width: 'calc(50% - 10px)' }}>
+                            <div className="field-half">
                                 <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#444', marginBottom: '8px' }}>Subject</label>
                                 <input
                                     type="text"
@@ -219,7 +219,7 @@ const ContactPage = () => {
                                     onChange={handleChange}
                                     placeholder="Subject"
                                     required
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '8px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
+                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '12px', border: '1px solid #e1e1e1', backgroundColor: '#f9f9f9', outline: 'none', transition: 'all 0.3s' }}
                                     onFocus={(e) => { e.target.style.borderColor = '#D4AF37'; e.target.style.backgroundColor = '#fff'; }}
                                     onBlur={(e) => { e.target.style.borderColor = '#e1e1e1'; e.target.style.backgroundColor = '#f9f9f9'; }}
                                 />
@@ -246,9 +246,9 @@ const ContactPage = () => {
                                     width: '100%',
                                     padding: '16px',
                                     marginTop: '10px',
-                                    borderRadius: '8px',
-                                    background: 'linear-gradient(to right, #D4AF37, #B8860B)',
-                                    color: '#fff',
+                                    borderRadius: '12px',
+                                    backgroundColor: 'var(--accent-gold)',
+                                    color: 'var(--primary-color)',
                                     fontSize: '15px',
                                     fontWeight: '700',
                                     textTransform: 'uppercase',
@@ -256,10 +256,10 @@ const ContactPage = () => {
                                     border: 'none',
                                     cursor: 'pointer',
                                     transition: 'all 0.3s',
-                                    boxShadow: '0 10px 20px rgba(212, 175, 55, 0.2)'
+                                    boxShadow: '0 10px 20px rgba(212, 175, 55, 0.15)'
                                 }}
-                                onMouseOver={(e) => { if (!loading) e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 25px rgba(212, 175, 55, 0.3)'; }}
-                                onMouseOut={(e) => { if (!loading) e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 20px rgba(212, 175, 55, 0.2)'; }}
+                                onMouseOver={(e) => { if (!loading) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 15px 30px rgba(212, 175, 55, 0.25)'; } }}
+                                onMouseOut={(e) => { if (!loading) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 20px rgba(212, 175, 55, 0.15)'; } }}
                             >
                                 {loading ? 'Sending...' : 'Send Message'}
                             </button>

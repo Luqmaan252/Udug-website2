@@ -26,7 +26,7 @@ const Layout = ({ children }) => {
 
             <Footer />
 
-            <CartModal isOpen={isCartOpen} onClose={closeCart} />
+            <CartModal isOpen={isCartOpen} onClose={closeCart} onLoginClick={handleLoginClick} />
             <LoginModal isOpen={isLoginOpen} onClose={closeLogin} />
 
             {/* Overlay for modals */}

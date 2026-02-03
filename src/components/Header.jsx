@@ -90,7 +90,7 @@ const Header = ({ onLoginClick, onCartClick }) => {
         <>
             <header className={isScrolled ? 'scrolled' : ''}>
                 <div className="container header-container">
-                    <Link to="/" className="logo">UDUG <span>PERFUMES</span>
+                    <Link to="/" className="logo">UDUG
                     </Link>
 
                     <div className="mobile-menu-btn" onClick={toggleMobileMenu}>
@@ -100,7 +100,6 @@ const Header = ({ onLoginClick, onCartClick }) => {
                     <nav className={isMobileMenuOpen ? 'active' : ''}>
                         <ul>
                             <li><Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
-                            <li><a href="/#collections" onClick={() => setIsMobileMenuOpen(false)}>Catars</a></li>
                             <li><a href="/#brands" onClick={() => setIsMobileMenuOpen(false)}>Brands</a></li>
                             <li><a href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Perfumes</a></li>
                             <li><Link to="/our-story" onClick={() => setIsMobileMenuOpen(false)}>Our Story</Link></li>
@@ -108,10 +107,31 @@ const Header = ({ onLoginClick, onCartClick }) => {
                         </ul>
                     </nav>
 
+                    <div className="header-search-bar">
+                        <i className="fas fa-search"></i>
+                        <input
+                            type="text"
+                            placeholder="Search perfumes, catars..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                        />
+                        {searchResults.length > 0 && searchQuery.length > 0 && (
+                            <div className="search-dropdown-results">
+                                {searchResults.map(product => (
+                                    <div key={product.id} className="search-dropdown-item" onClick={() => handleProductClick(product.id)}>
+                                        <img src={product.image} alt={product.name} />
+                                        <div className="result-detail">
+                                            <span className="result-name">{product.name}</span>
+                                            <span className="result-brand">{product.brand}</span>
+                                        </div>
+                                        <span className="result-price">${product.price.toFixed(2)}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="header-icons">
-                        <button className="nav-icon-btn search-trigger" onClick={toggleSearch}>
-                            <i className="fas fa-search"></i>
-                        </button>
 
                         <button className="nav-icon-btn cart-trigger" onClick={onCartClick}>
                             <i className="fas fa-shopping-cart"></i>
@@ -155,63 +175,6 @@ const Header = ({ onLoginClick, onCartClick }) => {
                 </div>
             </header>
 
-            {/* Premium Search Overlay */}
-            {isSearchOpen && (
-                <div className="search-overlay active">
-                    <div className="search-modal">
-                        <div className="search-header">
-                            <i className="fas fa-search search-main-icon"></i>
-                            <input
-                                type="text"
-                                placeholder="Search for perfumes, catars, brands..."
-                                value={searchQuery}
-                                onChange={handleSearchChange}
-                                autoFocus
-                            />
-                            <button className="close-search" onClick={toggleSearch}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-
-                        <div className="search-results-container">
-                            {searchResults.length > 0 ? (
-                                <div className="search-results-list">
-                                    <p className="results-label">Top Results</p>
-                                    {searchResults.map(product => (
-                                        <div key={product.id} className="search-result-item" onClick={() => handleProductClick(product.id)}>
-                                            <div className="result-img">
-                                                <img src={product.image} alt={product.name} />
-                                            </div>
-                                            <div className="result-info">
-                                                <h4>{product.name}</h4>
-                                                <p>{product.brand}</p>
-                                            </div>
-                                            <div className="result-price">
-                                                ${product.price.toFixed(2)}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : searchQuery.length > 1 ? (
-                                <div className="no-results">
-                                    <i className="fas fa-search"></i>
-                                    <p>No products found for "{searchQuery}"</p>
-                                </div>
-                            ) : (
-                                <div className="search-suggestions">
-                                    <p className="results-label">Popular Searches</p>
-                                    <div className="suggestion-tags">
-                                        <span onClick={() => { setSearchQuery('Catar'); handleSearchChange({ target: { value: 'Catar' } }) }}>Catar</span>
-                                        <span onClick={() => { setSearchQuery('Dior'); handleSearchChange({ target: { value: 'Dior' } }) }}>Dior</span>
-                                        <span onClick={() => { setSearchQuery('Chanel'); handleSearchChange({ target: { value: 'Chanel' } }) }}>Chanel</span>
-                                        <span onClick={() => { setSearchQuery('Uunsi'); handleSearchChange({ target: { value: 'Uunsi' } }) }}>Uunsi</span>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
         </>
     );
 };

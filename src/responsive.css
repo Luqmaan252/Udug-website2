@@ -1,0 +1,185 @@
+/* Responsive Overrides for Udug Perfumes */
+
+@media (max-width: 1024px) {
+
+    .container,
+    .header-container,
+    .container-narrow {
+        width: 95%;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-content {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-text {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-image img {
+        height: 350px;
+    }
+
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Testimonials Grid */
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .testimonial-card {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid var(--accent-gold);
+    }
+
+    .testimonial-text {
+        margin-bottom: 20px;
+        font-style: italic;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .testimonial-author img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* Profile Styles */
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .profile-details-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .profile-card {
+        padding: 30px 20px;
+    }
+
+    .profile-avatar {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 32px !important;
+    }
+
+    h2 {
+        font-size: 26px !important;
+    }
+
+    .hero-text h1 {
+        font-size: 34px !important;
+        margin-bottom: 15px;
+    }
+
+    .hero-text p {
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+
+    .hero-image img {
+        height: 280px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+
+    .product-img {
+        height: 160px !important;
+    }
+
+    .product-name {
+        font-size: 13px !important;
+        height: 38px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .price {
+        font-size: 15px !important;
+    }
+
+    .add-to-cart {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 6px !important;
+        font-size: 12px !important;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    /* Product Detail actions */
+    .product-detail-actions {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    .add-to-cart-detail,
+    .buy-now-btn {
+        width: 100% !important;
+        flex: none !important;
+    }
+
+    /* Quantity selector */
+    .quantity-selector {
+        width: 130px;
+    }
+
+    .quantity-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .quantity-input {
+        width: 40px;
+    }
+
+    .cart-modal,
+    .login-modal {
+        width: 100% !important;
+        right: -100% !important;
+    }
+
+    .cart-modal.active,
+    .login-modal.active {
+        right: 0 !important;
+    }
+}

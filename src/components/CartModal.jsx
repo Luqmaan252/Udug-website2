@@ -1,8 +1,9 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const CartModal = ({ isOpen, onClose }) => {
+const CartModal = ({ isOpen, onClose, onLoginClick }) => {
     const {
         cart,
         updateQuantity,
@@ -15,6 +16,7 @@ const CartModal = ({ isOpen, onClose }) => {
         closeCart: contextCloseCart
     } = useCart();
 
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
 
     // Combine parent control and context control
@@ -51,6 +53,16 @@ const CartModal = ({ isOpen, onClose }) => {
     };
 
     const handleCheckout = () => {
+        // Check if user is logged in
+        if (!currentUser) {
+            handleClose();
+            alert('Please log in or create an account to place an order');
+            if (onLoginClick) {
+                onLoginClick();
+            }
+            return;
+        }
+
         handleClose();
         navigate('/payment');
     };

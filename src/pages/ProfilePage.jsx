@@ -91,26 +91,17 @@ const ProfilePage = () => {
                     </Link>
                 </div>
 
-                <div className="profile-card" style={{ backgroundColor: '#fff', borderRadius: '20px', padding: '40px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
-                    <div className="profile-header" style={{ display: 'flex', alignItems: 'center', gap: '25px', marginBottom: '40px', paddingBottom: '30px', borderBottom: '1px solid #f0f0f0' }}>
-                        <div className="avatar-container" style={{ position: 'relative' }}>
-                            <div className="profile-avatar" style={{
-                                width: '120px', height: '120px', borderRadius: '40px', backgroundColor: '#D4AF37', color: '#fff',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '48px', fontWeight: 'bold',
-                                overflow: 'hidden', border: '5px solid #fff', boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
-                            }}>
+                <div className="profile-card">
+                    <div className="profile-header">
+                        <div className="avatar-container">
+                            <div className="profile-avatar">
                                 {currentUser.avatarUrl ? (
-                                    <img src={currentUser.avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={currentUser.avatarUrl} alt="Avatar" />
                                 ) : (
                                     currentUser.name.charAt(0).toUpperCase()
                                 )}
                             </div>
-                            <label htmlFor="avatar-upload" style={{
-                                position: 'absolute', bottom: '-10px', right: '-10px',
-                                width: '40px', height: '40px', backgroundColor: '#222', color: '#fff',
-                                borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                cursor: 'pointer', border: '3px solid #fff', transition: 'all 0.3s ease'
-                            }} className="edit-avatar-btn">
+                            <label htmlFor="avatar-upload" className="edit-avatar-btn">
                                 <i className={`fas ${isUploading ? 'fa-spinner fa-spin' : 'fa-camera'}`}></i>
                                 <input
                                     type="file"
@@ -122,31 +113,30 @@ const ProfilePage = () => {
                                 />
                             </label>
                         </div>
-                        <div>
-                            <h3 style={{ fontSize: '28px', marginBottom: '5px' }}>{currentUser.name}</h3>
-                            <p style={{ color: '#777', fontSize: '16px' }}>{currentUser.email}</p>
-                            <span style={{ fontSize: '12px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '1px' }}>Member since {new Date(currentUser.$createdAt).toLocaleDateString()}</span>
+                        <div className="profile-info-text">
+                            <h3>{currentUser.name}</h3>
+                            <p className="profile-email">{currentUser.email}</p>
+                            <span className="member-since">Member since {new Date(currentUser.$createdAt).toLocaleDateString()}</span>
                         </div>
                     </div>
 
                     {!isEditing ? (
                         <div className="profile-details">
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
+                            <div className="profile-details-grid">
                                 <div className="detail-item">
-                                    <strong style={{ display: 'block', color: '#999', fontSize: '12px', textTransform: 'uppercase', marginBottom: '10px' }}>Phone Number</strong>
-                                    <p style={{ fontSize: '18px', fontWeight: '600' }}>{currentUser.profile?.phone || 'Not provided'}</p>
+                                    <strong>Phone Number</strong>
+                                    <p>{currentUser.profile?.phone || 'Not provided'}</p>
                                 </div>
                                 <div className="detail-item">
-                                    <strong style={{ display: 'block', color: '#999', fontSize: '12px', textTransform: 'uppercase', marginBottom: '10px' }}>Delivery Address</strong>
-                                    <p style={{ fontSize: '18px', fontWeight: '600' }}>{currentUser.profile?.address || 'Not provided'}</p>
+                                    <strong>Delivery Address</strong>
+                                    <p>{currentUser.profile?.address || 'Not provided'}</p>
                                 </div>
                             </div>
                             <button
-                                className="btn"
-                                style={{ width: '100%', marginTop: '40px', backgroundColor: '#222', color: '#fff', borderRadius: '12px' }}
+                                className="btn btn-dark-edit"
                                 onClick={() => setIsEditing(true)}
                             >
-                                <i className="fas fa-edit" style={{ marginRight: '10px' }}></i> Edit Profile Information
+                                <i className="fas fa-edit"></i> Edit Profile Information
                             </button>
                         </div>
                     ) : (
