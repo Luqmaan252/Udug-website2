@@ -33,7 +33,7 @@ const Footer = () => {
                             <li><a href="#">Shipping & Delivery</a></li>
                             <li><a href="#">Return Policy</a></li>
                             <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><Link to="/contact">Contact Us</Link></li>
                             <li><a href="#">Privacy Policy</a></li>
                         </ul>
                     </div>
@@ -42,7 +42,7 @@ const Footer = () => {
                         <ul className="contact-info">
                             <li><i className="fas fa-map-marker-alt"></i> 123 Perfume Street, Mogadishu, Somalia</li>
                             <li><i className="fas fa-phone"></i> +252 61 700 0305</li>
-                            <li><i className="fas fa-envelope"></i> baarri252@gmail.com</li>
+                            <li><i className="fas fa-envelope"></i> udug@gmail.com</li>
                             <li><i className="fas fa-clock"></i> Mon-Sat: 9AM-8PM, Sun: 10AM-6PM</li>
                         </ul>
                         <div className="fast-delivery-notice" style={{ marginTop: '15px', backgroundColor: 'rgba(212, 175, 55, 0.2)', color: '#fff', fontSize: '12px' }}>

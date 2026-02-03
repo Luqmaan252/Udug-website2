@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
+import ProductCard from '../components/ProductCard';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
     const { addToCart } = useCart();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [mainImage, setMainImage] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const [relatedProducts, setRelatedProducts] = useState([]);
 
     useEffect(() => {
         // Find product by ID
@@ -16,6 +19,13 @@ const ProductDetailPage = () => {
         if (foundProduct) {
             setProduct(foundProduct);
             setMainImage(foundProduct.image);
+
+            // Get related products (same brand or tag, excluding current)
+            const related = products
+                .filter(p => p.id !== foundProduct.id && (p.brand === foundProduct.brand || p.tag === foundProduct.tag))
+                .slice(0, 4);
+            setRelatedProducts(related);
+
             window.scrollTo(0, 0);
         }
     }, [id]);
@@ -33,6 +43,11 @@ const ProductDetailPage = () => {
 
     const handleAddToCart = () => {
         addToCart(product, quantity);
+    };
+
+    const handleBuyNow = () => {
+        addToCart(product, quantity);
+        navigate('/payment');
     };
 
     return (
@@ -90,8 +105,8 @@ const ProductDetailPage = () => {
                                         </div>
                                         {product.originalPrice && (
                                             <>
-                                                <div className="original-price-detail">${product.originalPrice.toFixed(2)}</div>
-                                                <div className="discount-badge">
+                                                <div className="original-price-detail" style={{ color: '#999', textDecoration: 'line-through', fontSize: '18px' }}>${product.originalPrice.toFixed(2)}</div>
+                                                <div className="discount-badge" style={{ backgroundColor: '#ff4444', color: '#fff', padding: '4px 10px', borderRadius: '4px', fontSize: '12px', fontWeight: '700', marginLeft: '15px' }}>
                                                     {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
                                                 </div>
                                             </>
@@ -99,36 +114,36 @@ const ProductDetailPage = () => {
                                     </div>
 
                                     <div className="delivery-info-detail">
-                                        <i className="fas fa-shipping-fast"></i>
-                                        <span>24-Hour Delivery to Mogadishu, Hargeisa, Kismayo, Garowe & all major cities!</span>
+                                        <i className="fas fa-shipping-fast" style={{ color: '#D4AF37', marginRight: '8px' }}></i>
+                                        <span style={{ color: '#1a365d', fontWeight: '600', fontSize: '14px' }}>24-Hour Delivery to Mogadishu, Hargeisa & major cities!</span>
                                     </div>
                                 </div>
 
-                                <div className="product-quantity">
-                                    <div className="quantity-label">Quantity:</div>
-                                    <div className="quantity-selector">
-                                        <button className="quantity-btn" onClick={() => handleQuantityChange(-1)}>-</button>
-                                        <input type="text" className="quantity-input" value={quantity} readOnly />
-                                        <button className="quantity-btn" onClick={() => handleQuantityChange(1)}>+</button>
+                                <div className="product-quantity" style={{ display: 'flex', alignItems: 'center', margin: '30px 0' }}>
+                                    <div className="quantity-label" style={{ marginRight: '15px', fontWeight: '600' }}>Quantity:</div>
+                                    <div className="quantity-selector" style={{ display: 'flex', alignItems: 'center', border: '1px solid #ddd', borderRadius: '5px' }}>
+                                        <button className="quantity-btn" onClick={() => handleQuantityChange(-1)} style={{ width: '40px', height: '40px', border: 'none', background: '#f5f5f5', cursor: 'pointer' }}>-</button>
+                                        <input type="text" className="quantity-input" value={quantity} readOnly style={{ width: '50px', border: 'none', textAlign: 'center', fontWeight: '600' }} />
+                                        <button className="quantity-btn" onClick={() => handleQuantityChange(1)} style={{ width: '40px', height: '40px', border: 'none', background: '#f5f5f5', cursor: 'pointer' }}>+</button>
                                     </div>
                                 </div>
 
-                                <div className="product-detail-actions">
-                                    <button className="add-to-cart-detail" onClick={handleAddToCart}>
-                                        <i className="fas fa-shopping-cart"></i> Add to Cart
+                                <div className="product-detail-actions" style={{ display: 'flex', gap: '15px' }}>
+                                    <button className="add-to-cart-detail" onClick={handleAddToCart} style={{ flex: 2, padding: '15px', background: '#000', color: '#fff', border: 'none', borderRadius: '5px', fontWeight: '600', cursor: 'pointer' }}>
+                                        <i className="fas fa-shopping-cart" style={{ marginRight: '10px' }}></i> Add to Cart
                                     </button>
-                                    <button className="buy-now-btn" onClick={handleAddToCart}>
-                                        <i className="fas fa-bolt"></i> Buy Now
+                                    <button className="buy-now-btn" onClick={handleBuyNow} style={{ flex: 1, padding: '15px', background: '#D4AF37', color: '#000', border: 'none', borderRadius: '5px', fontWeight: '600', cursor: 'pointer' }}>
+                                        <i className="fas fa-bolt" style={{ marginRight: '10px' }}></i> Buy Now
                                     </button>
                                 </div>
 
-                                <div className="product-specs">
+                                <div className="product-specs" style={{ marginTop: '40px', paddingTop: '30px', borderTop: '1px solid #eee' }}>
                                     <h3>Product Details</h3>
-                                    <div className="specs-grid">
+                                    <div className="specs-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                                         {product.specs.map((spec, index) => (
                                             <div className="spec-item" key={index}>
-                                                <span className="spec-label" style={{ fontWeight: '600' }}>{spec.label}: </span>
-                                                <span className="spec-value">{spec.value}</span>
+                                                <span className="spec-label" style={{ fontWeight: '600', color: '#666' }}>{spec.label}: </span>
+                                                <span className="spec-value" style={{ fontWeight: '500' }}>{spec.value}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -136,6 +151,21 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Related Products Section */}
+                    {relatedProducts.length > 0 && (
+                        <div className="related-products" style={{ marginTop: '80px' }}>
+                            <div className="section-header" style={{ textAlign: 'center', marginBottom: '40px' }}>
+                                <span className="section-subtitle">Customers Also Viewed</span>
+                                <h2>Related Products</h2>
+                            </div>
+                            <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '25px' }}>
+                                {relatedProducts.map(p => (
+                                    <ProductCard key={p.id} product={p} />
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
         </div>

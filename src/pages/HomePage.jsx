@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
@@ -16,10 +17,10 @@ const HomePage = () => {
                 <div className="container">
                     <div className="hero-content">
                         <div className="hero-text">
-                            <span className="section-subtitle">New Collection 2026</span>
-                            <h1><div style={{ color: '#D4AF37' }}>Welcome To</div> Soomaali Perfumes</h1>
+                            <span className="welcome-text">New Collection 2026</span>
+                            <span className="section-subtitle">Welcome To</span>
+                            <h1>UDUG Perfumes</h1>
                             <p>Discover our exclusive collection of traditional Somali Catars and premium international perfumes. Experience the luxury of authentic scents from Somalia and around the world.</p>
-                            <p><strong>Fast Delivery:</strong> Mogadishu, Hargeisa, Kismayo, Garowe & all major cities within 24 hours!</p>
                             <a href="#products" className="btn btn-gold">Shop Now</a>
                         </div>
                         <div className="hero-image">
@@ -33,62 +34,74 @@ const HomePage = () => {
                 </div>
             </section>
 
-            {/* Collections Section */}
-            <section className="collections" id="collections">
-                <div className="container">
-                    <div className="section-header">
-                        <span className="section-subtitle">Traditional Scents</span>
-                        <h2>Somali Catars & Perfumes</h2>
+            {/* Collections Section - Redesigned for Premium Feel */}
+            <section className="collections-elegant" id="collections">
+                <div className="container-narrow">
+                    <div className="elegant-header">
+                        <div className="header-main">
+                            <span className="gold-accent-text">Traditional Scents</span>
+                            <h2>Somali Catars & Perfumes</h2>
+                        </div>
+                        <div className="header-desc">
+                            <p>Hand-blended by masters using ancient Somali recipes. Our 100% authentic Catars bring the soul of Mogadishu, Hargeisa, and Garowe to your doorstep.</p>
+                        </div>
                     </div>
 
-                    <div className="collections-grid">
-                        <div className="collection-card">
-                            <img src="/images/perfume2.jpg" alt="Traditional Somali Catar"
-                                onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}
-                            />
-                            <div className="collection-info">
-                                <h3>Traditional Catars</h3>
-                                <p>Authentic Somali incense and perfume oils for special occasions</p>
+                    <div className="collections-premium-grid">
+                        <div className="collection-premium-card">
+                            <div className="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1616984748474-21a43973bc51?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Traditional Somali Catar"
+                                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}
+                                />
+                                <div className="card-badge">Premium Origin</div>
+                            </div>
+                            <div className="card-content-elegant">
+                                <div className="card-content-top">
+                                    <h3>Traditional Catars</h3>
+                                    <p>Experience the deep, balsamic notes of natural Somali resins and aged oud. Perfect for heritage and prestige.</p>
+                                </div>
+                                <div className="card-action">
+                                    <a href="#products" className="btn-scent-link">Explore Collection <i className="fas fa-arrow-right"></i></a>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="collection-card">
-                            <img src="/images/perfume3.jpg" alt="Modern Perfumes"
-                                onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}
-                            />
-                            <div className="collection-info">
-                                <h3>Modern Perfumes</h3>
-                                <p>International luxury fragrances for everyday elegance</p>
+                        <div className="collection-premium-card">
+                            <div className="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Modern Perfumes"
+                                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}
+                                />
+                            </div>
+                            <div className="card-content-elegant">
+                                <div className="card-content-top">
+                                    <h3>Modern Luxury</h3>
+                                    <p>International fragrances infused with rare Somali musk and amber for a unique, global appeal.</p>
+                                </div>
+                                <div className="card-action">
+                                    <a href="#products" className="btn-scent-link">Browse Full Range <i className="fas fa-arrow-right"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Brands Section */}
-            <section className="brands" id="brands">
-                <div className="container">
-                    <div className="section-header">
-                        <span className="section-subtitle">Our Brands</span>
-                        <h2>Somali & International Brands</h2>
-                    </div>
+            {/* Brands Section - Now a sleek bridge */}
+            <section className="brands" id="brands" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
+                <div className="container-narrow">
 
                     <div className="brands-grid">
                         <div className="brand-card"><h4>Uunsi Soomaali</h4></div>
                         <div className="brand-card"><h4>Catar</h4></div>
                         <div className="brand-card"><h4>Chanel</h4></div>
                         <div className="brand-card"><h4>Dior</h4></div>
-                        <div className="brand-card"><h4>9PM</h4></div>
-                        <div className="brand-card"><h4>1 Million Perfume</h4></div>
-                        <div className="brand-card"><h4>Lattafa</h4></div>
-                        <div className="brand-card"><h4>Oud for Glory</h4></div>
                     </div>
                 </div>
             </section>
 
             {/* Products Section */}
             <section className="products" id="products">
-                <div className="container">
+                <div className="container-narrow">
                     <div className="section-header">
                         <span className="section-subtitle">Premium Selection</span>
                         <h2>Best Selling Perfumes & Catars</h2>
@@ -111,56 +124,62 @@ const HomePage = () => {
                     </div>
 
                     <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-                        {/* Added inline style grid for testimonials which was missing in global css or dynamically added? 
-               Wait, existing CSS didn't have .testimonials-grid spec except implicitly via defaults? 
-               Checking style.css... line 163 in step 11... 
-               Wait, style.css I viewed only went to line 800. Did I miss testimonials styling?
-               Ah, I viewed lines 1-800 of style.css (Total 2045 lines).
-               Testimonials section is usually lower down.
-               I should have checked the rest of style.css.
-               But assuming standard grid or adding inline style to be safe.
-               Actually, existing HTML used `.testimonials-grid`. If I use standard class it should work if CSS is loaded.
-               I pasted lines 1-800 of CSS into src/index.css. I MISSED THE REST OF THE CSS.
-               CRITICAL ERROR: I only copied lines 1-800 of style.css.
-               I need to append the rest of the style.css to src/index.css.
-               I will create a task to fix the CSS.
-            */}
-                        <div className="testimonial-card" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '5px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}>
-                            <div className="testimonial-text" style={{ marginBottom: '20px', fontStyle: 'italic' }}>
+                        <div className="testimonial-card" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '5px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-10px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                            <div className="testimonial-text" style={{ marginBottom: '20px', fontStyle: 'italic', color: '#555' }}>
                                 "The traditional Somali Catar I purchased was absolutely authentic! The scent lasts all day and brings back memories of home. Fast delivery to Garowe!"
                             </div>
                             <div className="testimonial-author" style={{ display: 'flex', alignItems: 'center' }}>
-                                <img src="/images/perfume4.jpg" alt="Customer" style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover', marginRight: '15px' }}
-                                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'; }}
-                                />
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Customer" style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover', marginRight: '15px' }} />
                                 <div className="author-info">
                                     <h4 style={{ margin: 0, fontSize: '16px' }}>Fatima Ahmed</h4>
                                     <p style={{ margin: 0, fontSize: '13px', color: '#999' }}>Garowe, Somalia</p>
                                 </div>
                             </div>
                         </div>
-                        {/* ... other testimonials ... */}
+
+                        <div className="testimonial-card" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '5px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-10px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                            <div className="testimonial-text" style={{ marginBottom: '20px', fontStyle: 'italic', color: '#555' }}>
+                                "I was impressed by the quick delivery to Hargeisa. The 9PM perfume is original and the packaging was very premium. Will definitely order again!"
+                            </div>
+                            <div className="testimonial-author" style={{ display: 'flex', alignItems: 'center' }}>
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Customer" style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover', marginRight: '15px' }} />
+                                <div className="author-info">
+                                    <h4 style={{ margin: 0, fontSize: '16px' }}>Mustafa Barre</h4>
+                                    <p style={{ margin: 0, fontSize: '13px', color: '#999' }}>Hargeisa, Somalia</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="testimonial-card" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '5px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-10px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                            <div className="testimonial-text" style={{ marginBottom: '20px', fontStyle: 'italic', color: '#555' }}>
+                                "Udug Perfumes has the best collection of Oud in the city. Their customer service is top-notch and they really know their scents. Highly recommended!"
+                            </div>
+                            <div className="testimonial-author" style={{ display: 'flex', alignItems: 'center' }}>
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Customer" style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover', marginRight: '15px' }} />
+                                <div className="author-info">
+                                    <h4 style={{ margin: 0, fontSize: '16px' }}>Zahra Yusuf</h4>
+                                    <p style={{ margin: 0, fontSize: '13px', color: '#999' }}>Mogadishu, Somalia</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Story Section */}
-            <section className="story" id="story">
-                <div className="container">
-                    <div className="story-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '40px' }}>
-                        <div className="story-text" style={{ flex: 1 }}>
-                            <span className="section-subtitle">Our Story</span>
-                            <h2>UDUD PERFUMES: Somali Scents Since 2010</h2>
-                            <p>Founded with a passion for preserving Somali fragrance traditions while embracing global luxury, UDUD PERFUMES has been the premier destination for authentic Somali Catars and international perfumes for over a decade.</p>
-                            <p>We work directly with traditional Somali perfume makers in Mogadishu, Hargeisa, and Garowe, as well as with renowned international perfume houses to bring you the finest scents from Somalia and around the world.</p>
-                            <p><strong>Fast Delivery:</strong> We guarantee 24-hour delivery to all major cities in Somalia and Somaliland.</p>
-                            <a href="#products" className="btn btn-outline">Shop Now</a>
-                        </div>
-                        <div className="story-image" style={{ flex: 1 }}>
-                            <img src="/images/perfume7.jpg" alt="Our Story" style={{ width: '100%', borderRadius: '5px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}
-                                onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }}
-                            />
-                        </div>
+
+            {/* Contact CTA Section */}
+            <section className="contact-cta">
+                <div className="container contact-cta-container">
+                    <span className="contact-cta-subtitle">Have Questions?</span>
+                    <h2 className="contact-cta-title">We're Here to Help You Find Your Signature Scent</h2>
+                    <p className="contact-cta-text">
+                        Whether you're looking for a traditional Somali Catar or a modern international fragrance, our experts are ready to assist you.
+                    </p>
+                    <div className="contact-cta-buttons">
+                        <Link to="/contact" className="btn btn-gold btn-large">Send a Message</Link>
+                        <a href="https://wa.me/252617000305" className="btn btn-whatsapp btn-large">
+                            <i className="fab fa-whatsapp"></i> WhatsApp Us
+                        </a>
                     </div>
                 </div>
             </section>

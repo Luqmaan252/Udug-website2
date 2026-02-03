@@ -31,14 +31,16 @@ const LoginModal = ({ isOpen, onClose }) => {
         setLoginError('');
         setLoginSuccess('');
 
-        if (!loginEmail || !loginPassword) {
+        const cleanedEmail = loginEmail.trim();
+
+        if (!cleanedEmail || !loginPassword) {
             setLoginError('Please fill in all fields');
             return;
         }
 
         setIsLoading(true);
         try {
-            const result = await login(loginEmail, loginPassword);
+            const result = await login(cleanedEmail, loginPassword);
             if (result.success) {
                 setLoginSuccess(result.message);
                 setTimeout(() => {
@@ -48,8 +50,10 @@ const LoginModal = ({ isOpen, onClose }) => {
                 }, 1000);
             } else {
                 setLoginError(result.message);
+                console.warn("Login failed for:", cleanedEmail, "Error:", result.message);
             }
         } catch (err) {
+            console.error("Login component error:", err);
             setLoginError('An unexpected error occurred.');
         } finally {
             setIsLoading(false);

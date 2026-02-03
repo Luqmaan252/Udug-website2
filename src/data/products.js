@@ -43,7 +43,7 @@ export const products = [
         specs: [
             { label: "Type", value: "Premium Catar" },
             { label: "Scent Type", value: "Floral, Oriental, Spicy" },
-            { label: "Origin", value: "Hargeisa, Somaliland" },
+            { label: "Origin", value: "Hargeisa, Somalia" },
             { label: "Weight", value: "75g" },
             { label: "Duration", value: "12+ hours" },
             { label: "Ingredients", value: "Star Anise, Amber, Rose, Jasmine" }
@@ -247,6 +247,56 @@ export const products = [
             { label: "Size", value: "100ml" },
             { label: "Gender", value: "Men" },
             { label: "Top Notes", value: "Apple, Bergamot, Lavender" }
+        ]
+    },
+    {
+        id: 11,
+        name: "Lattafa Asad Eau de Parfum",
+        brand: "Lattafa",
+        price: 95.00,
+        originalPrice: 110.00,
+        image: "/images/perfume11.jpg",
+        category: "perfume",
+        tag: "Best Seller",
+        description: "Asad by Lattafa is a vanilla fragrance that opens with signature fragrance with unique notes. The fragrance has best answer to the other clones and the perfume is for men and women both.",
+        images: [
+            "/images/perfume11.jpg",
+            "/images/perfume12.jpg",
+            "/images/perfume1.jpg",
+            "/images/perfume2.jpg"
+        ],
+        specs: [
+            { label: "Brand", value: "Lattafa" },
+            { label: "Fragrance Type", value: "Eau de Parfum" },
+            { label: "Scent Family", value: "Oriental Vanilla" },
+            { label: "Size", value: "100ml" },
+            { label: "Gender", value: "Unisex" },
+            { label: "Top Notes", value: "Black Pepper, Pineapple, Tobacco" }
+        ]
+    },
+    {
+        id: 12,
+        name: "Oud for Glory - Bade'e Al Oud",
+        brand: "Lattafa",
+        price: 115.00,
+        originalPrice: 135.00,
+        image: "/images/perfume12.jpg",
+        category: "perfume",
+        tag: "Luxury",
+        description: "Bade'e Al Oud (Oud for Glory) is a highly prestigious oud perfume with a strong signature. It is one of Lattafa’s newest high-end perfumes. It also has good projection and very long-lasting.",
+        images: [
+            "/images/perfume12.jpg",
+            "/images/perfume11.jpg",
+            "/images/perfume3.jpg",
+            "/images/perfume4.jpg"
+        ],
+        specs: [
+            { label: "Brand", value: "Lattafa" },
+            { label: "Fragrance Type", value: "Eau de Parfum" },
+            { label: "Scent Family", value: "Oriental Woody" },
+            { label: "Size", value: "100ml" },
+            { label: "Gender", value: "Unisex" },
+            { label: "Top Notes", value: "Saffron, Nutmeg, Lavender" }
         ]
     }
 ];

@@ -12,15 +12,21 @@ const PaymentPage = () => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [orderId, setOrderId] = useState('');
 
-    // Setup form states (simplified for migration)
-    const [evcPhone, setEvcPhone] = useState('+252 61 700 0305');
-    const [evcName, setEvcName] = useState('Mohamed Ali');
+    // Setup form states initialized with user profile data if available
+    const [evcPhone, setEvcPhone] = useState(currentUser?.profile?.phone || '');
+    const [evcName, setEvcName] = useState(currentUser?.name || '');
+    const [zaadPhone, setZaadPhone] = useState(currentUser?.profile?.phone || '');
+    const [cardNum, setCardNum] = useState('');
+    const [cashAddress, setCashAddress] = useState(currentUser?.profile?.address || '');
 
-    const [zaadPhone, setZaadPhone] = useState('+252 63 123 4567');
-
-    const [cardNum, setCardNum] = useState('4532 1234 5678 9012');
-
-    const [cashAddress, setCashAddress] = useState('123 Perfume Street, Mogadishu, Somalia');
+    useEffect(() => {
+        if (currentUser) {
+            if (!evcPhone && currentUser.profile?.phone) setEvcPhone(currentUser.profile.phone);
+            if (!evcName && currentUser.name) setEvcName(currentUser.name);
+            if (!zaadPhone && currentUser.profile?.phone) setZaadPhone(currentUser.profile.phone);
+            if (!cashAddress && currentUser.profile?.address) setCashAddress(currentUser.profile.address);
+        }
+    }, [currentUser]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -30,24 +36,33 @@ const PaymentPage = () => {
         }
     }, [cart, showSuccess, navigate]);
 
-    const handlePayNow = () => {
+    const handlePayNow = async () => {
+        // Simple validation
+        if ((activeMethod === 'evc' && !evcPhone) || (activeMethod === 'cash' && !cashAddress)) {
+            alert('Please fill in the required payment details');
+            return;
+        }
+
         // Simulate payment processing
         const newOrderId = `UDUD-2026-${Math.floor(10000 + Math.random() * 90000)}`;
         setOrderId(newOrderId);
 
-        // Create order object
+        // Create order object with customer snapshot
         const order = {
             id: newOrderId,
             date: new Date().toISOString(),
             items: cart,
             total: total,
             method: activeMethod,
-            status: 'Paid'
+            status: 'Paid',
+            customerName: evcName || currentUser?.name,
+            customerPhone: activeMethod === 'evc' ? evcPhone : (activeMethod === 'zaad' ? zaadPhone : currentUser?.profile?.phone),
+            customerAddress: cashAddress || currentUser?.profile?.address
         };
 
         // Add to user history if logged in
         if (currentUser) {
-            addOrder(order);
+            await addOrder(order);
         }
 
         setShowSuccess(true);

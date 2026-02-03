@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { account, databases, APPWRITE_CONFIG } from '../lib/appwrite';
+import { account, databases, storage, avatars, APPWRITE_CONFIG } from '../lib/appwrite';
 import { ID, Query } from 'appwrite';
 
 const AuthContext = createContext();
@@ -17,22 +17,51 @@ export const AuthProvider = ({ children }) => {
     const checkUserStatus = async () => {
         try {
             const accountDetails = await account.get();
-            // Fetch profile as well
             let profile = null;
+            let avatarUrl = null;
+
             try {
                 const profileList = await databases.listDocuments(
                     APPWRITE_CONFIG.DATABASE_ID,
                     APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
                     [Query.equal('userId', accountDetails.$id)]
                 );
+
                 if (profileList.documents.length > 0) {
                     profile = profileList.documents[0];
+
+                    if (profile.avatarId) {
+                        try {
+                            const result = storage.getFilePreview(
+                                APPWRITE_CONFIG.BUCKET_ID,
+                                profile.avatarId
+                            );
+                            // Correctly append timestamp based on existing params
+                            const baseUrl = result.href || result.toString();
+                            avatarUrl = baseUrl.includes('?')
+                                ? `${baseUrl}&t=${Date.now()}`
+                                : `${baseUrl}?t=${Date.now()}`;
+                            console.log("Debug: Final Avatar URL:", avatarUrl);
+                        } catch (avatarErr) {
+                            console.error("Debug: Preview Error:", avatarErr);
+                        }
+                    }
                 }
             } catch (error) {
-                console.error("Profile fetch error (might not exist yet):", error);
+                console.error("Debug: Profile/Avatar fetch error:", error);
             }
 
-            setCurrentUser({ ...accountDetails, profile });
+            // Fallback to initials if no custom avatar
+            if (!avatarUrl && accountDetails.name) {
+                try {
+                    const initialResult = avatars.getInitials(accountDetails.name);
+                    avatarUrl = initialResult.href || initialResult.toString();
+                } catch (initErr) {
+                    console.error("Debug: Initials Error:", initErr);
+                }
+            }
+
+            setCurrentUser({ ...accountDetails, profile, avatarUrl });
         } catch (error) {
             setCurrentUser(null);
         } finally {
@@ -41,7 +70,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const parseAppwriteError = (error) => {
-        console.error("Appwrite Error:", error);
+        console.error("Appwrite Full Error Object:", error);
+
         if (error.message === "Failed to fetch") {
             return "Connection failed. Please check your internet or ensure this domain is added to Appwrite Platforms.";
         }
@@ -55,7 +85,11 @@ export const AuthProvider = ({ children }) => {
             return "You are already logged in.";
         }
         if (error.code === 401) {
-            return "Invalid email or password. Please double-check your credentials.";
+            // Check if it's a specific type of 401
+            if (error.type === 'user_invalid_credentials') {
+                return "Invalid email or password. Please double-check your credentials.";
+            }
+            return error.message || "Invalid email or password.";
         }
         if (error.type === 'user_invalid_token') {
             return "Session expired. Please login again.";
@@ -71,11 +105,12 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (name, email, phone, password) => {
         try {
+            const cleanedEmail = email.trim();
             // 1. Create Appwrite Account
-            const newAccount = await account.create(ID.unique(), email, password, name);
+            const newAccount = await account.create(ID.unique(), cleanedEmail, password, name);
 
-            // 2. Login immediately to create session (needed to write to DB if permissions require auth)
-            await account.createEmailPasswordSession(email, password);
+            // 2. Login immediately to create session
+            await account.createEmailPasswordSession(cleanedEmail, password);
 
             // 3. Create Profile Document
             try {
@@ -92,7 +127,6 @@ export const AuthProvider = ({ children }) => {
                 );
             } catch (dbError) {
                 console.error("Failed to create profile document:", dbError);
-                // Continue anyway, user is created
             }
 
             await checkUserStatus();
@@ -104,11 +138,11 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            await account.createEmailPasswordSession(email, password);
+            const cleanedEmail = email.trim();
+            await account.createEmailPasswordSession(cleanedEmail, password);
             await checkUserStatus();
             return { success: true, message: 'Login successful' };
         } catch (error) {
-            // If session already exists, just refresh user status and consider it a success
             if (error.type === 'user_session_already_active') {
                 await checkUserStatus();
                 return { success: true, message: 'Login successful' };
@@ -127,63 +161,171 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const updateProfile = async (updates) => {
+    const uploadProfilePicture = async (file) => {
+        if (!currentUser) return { success: false, message: "User not logged in" };
+
+        console.log("Starting upload to bucket:", APPWRITE_CONFIG.BUCKET_ID);
         try {
-            // Update name in Account if provided
-            if (updates.name) {
-                await account.updateName(updates.name);
+            // 1. Upload file to Storage
+            const uploadedFile = await storage.createFile(
+                APPWRITE_CONFIG.BUCKET_ID,
+                ID.unique(),
+                file
+            );
+            console.log("File uploaded successfully, ID:", uploadedFile.$id);
+
+            // 2. Update profile document with avatarId
+            try {
+                if (currentUser.profile) {
+                    await databases.updateDocument(
+                        APPWRITE_CONFIG.DATABASE_ID,
+                        APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
+                        currentUser.profile.$id,
+                        { avatarId: uploadedFile.$id }
+                    );
+                } else {
+                    await databases.createDocument(
+                        APPWRITE_CONFIG.DATABASE_ID,
+                        APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
+                        ID.unique(),
+                        {
+                            userId: currentUser.$id,
+                            phone: '',
+                            address: '',
+                            avatarId: uploadedFile.$id
+                        }
+                    );
+                }
+            } catch (dbError) {
+                console.error("Database Update Failed. Did you add the 'avatarId' attribute in Appwrite?", dbError);
+                return { success: false, message: "Database update failed. Please ensure the 'avatarId' attribute exists in your Appwrite Profiles collection." };
             }
 
-            // Update profile document
-            if (currentUser.profile && (updates.phone || updates.address)) {
-                const profileUpdates = {};
-                if (updates.phone) profileUpdates.phone = updates.phone;
-                if (updates.address) profileUpdates.address = updates.address;
-
-                await databases.updateDocument(
-                    APPWRITE_CONFIG.DATABASE_ID,
-                    APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
-                    currentUser.profile.$id,
-                    profileUpdates
-                );
-            }
-
-            await checkUserStatus(); // Refresh local state
-            return { success: true, message: "Profile updated successfully" };
+            await checkUserStatus(); // Refresh
+            return { success: true, message: "Profile picture updated!" };
         } catch (error) {
-            console.error("Profile update error:", error);
+            console.error("Upload error details:", error);
             return { success: false, message: parseAppwriteError(error) };
         }
     };
 
-    // Legacy support for orders (local simulation for now as requested)
-    // We can't really "addOrder" to the immutable profile easily without parsing JSON.
-    // For now, we will just use local state behavior for the UI if needed, 
-    // or simply acknowledge the order locally.
-    const addOrder = (order) => {
-        if (!currentUser) return { success: false, message: 'User not logged in' };
-
+    const updateProfile = async (updates) => {
         try {
-            const storageKey = `orders_${currentUser.$id}`;
-            const storedOrders = localStorage.getItem(storageKey);
-            const currentOrders = storedOrders ? JSON.parse(storedOrders) : [];
-            const newOrders = [...currentOrders, order];
+            if (updates.name) {
+                await account.updateName(updates.name);
+            }
 
-            localStorage.setItem(storageKey, JSON.stringify(newOrders));
+            const profileData = {
+                phone: updates.phone || '',
+                address: updates.address || ''
+            };
 
-            // Notify listeners or just return success
-            // In a more complex app, we might want to update a state that ProfilePage subscribes to,
-            // but for now, ProfilePage will fetch on mount.
+            if (currentUser.profile) {
+                // Update existing
+                await databases.updateDocument(
+                    APPWRITE_CONFIG.DATABASE_ID,
+                    APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
+                    currentUser.profile.$id,
+                    profileData
+                );
+            } else {
+                // Create new if missing
+                await databases.createDocument(
+                    APPWRITE_CONFIG.DATABASE_ID,
+                    APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
+                    ID.unique(),
+                    {
+                        userId: currentUser.$id,
+                        ...profileData,
+                        orders: '[]'
+                    }
+                );
+            }
 
-            return { success: true, message: 'Order saved locally' };
+            await checkUserStatus();
+            return { success: true, message: "Profile updated successfully" };
+        } catch (error) {
+            console.error("Profile update error:", error);
+            let errorMessage = parseAppwriteError(error);
+            if (error.code === 404) {
+                errorMessage = "Database update failed. Please ensure the 'profiles' collection exists and you have proper permissions.";
+            } else if (error.message && error.message.includes("Invalid attribute")) {
+                errorMessage = "Update failed: Some attributes (like 'address' or 'phone') are missing in your Appwrite 'profiles' collection. Please add them as Type: String.";
+            }
+            return { success: false, message: errorMessage };
+        }
+    };
+
+    const addOrder = async (order) => {
+        if (!currentUser) return { success: false, message: 'User not logged in' };
+        try {
+            await databases.createDocument(
+                APPWRITE_CONFIG.DATABASE_ID,
+                APPWRITE_CONFIG.COLLECTION_ID_ORDERS,
+                ID.unique(),
+                {
+                    userId: currentUser.$id,
+                    items: JSON.stringify(order.items),
+                    total: parseFloat(order.total),
+                    status: order.status || 'Paid',
+                    orderDate: new Date().toISOString(),
+                    paymentMethod: order.method || 'Cash'
+                }
+            );
+            return { success: true, message: 'Order placed successfully' };
         } catch (e) {
-            console.error("Order save error", e);
-            return { success: false, message: 'Failed to save order' };
+            return { success: false, message: parseAppwriteError(e) };
+        }
+    };
+
+    const getUserOrders = async () => {
+        if (!currentUser) return [];
+        try {
+            const response = await databases.listDocuments(
+                APPWRITE_CONFIG.DATABASE_ID,
+                APPWRITE_CONFIG.COLLECTION_ID_ORDERS,
+                [
+                    Query.equal('userId', currentUser.$id),
+                    Query.orderDesc('orderDate')
+                ]
+            );
+            return response.documents.map(doc => ({
+                id: doc.$id,
+                ...doc,
+                items: JSON.parse(doc.items),
+                date: doc.orderDate
+            }));
+        } catch (error) {
+            return [];
+        }
+    };
+
+    const deleteOrder = async (orderId) => {
+        try {
+            await databases.deleteDocument(
+                APPWRITE_CONFIG.DATABASE_ID,
+                APPWRITE_CONFIG.COLLECTION_ID_ORDERS,
+                orderId
+            );
+            return { success: true };
+        } catch (error) {
+            return { success: false, message: parseAppwriteError(error) };
         }
     };
 
     return (
-        <AuthContext.Provider value={{ currentUser, login, register, logout, updateProfile, addOrder, loading }}>
+        <AuthContext.Provider value={{
+            currentUser,
+            login,
+            register,
+            logout,
+            updateProfile,
+            uploadProfilePicture,
+            addOrder,
+            getUserOrders,
+            deleteOrder,
+            loading
+        }}>
             {children}
         </AuthContext.Provider>
     );
