@@ -58,8 +58,8 @@ const Header = ({ onLoginClick, onCartClick }) => {
                             <div className="user-avatar">{currentUser.name.charAt(0).toUpperCase()}</div>
                             <button className="user-name">{currentUser.name}</button>
                             <div className={`user-dropdown ${isUserDropdownOpen ? 'active' : ''}`}>
-                                <a href="#">My Profile</a>
-                                <a href="#">My Orders</a>
+                                <Link to="/profile">My Profile</Link>
+                                <Link to="/profile">My Orders</Link>
                                 <a href="#" onClick={handleLogout}>Logout</a>
                             </div>
                         </div>

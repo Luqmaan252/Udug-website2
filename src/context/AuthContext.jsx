@@ -111,9 +111,32 @@ export const AuthProvider = ({ children }) => {
     };
 
     const updateProfile = async (updates) => {
-        // Implementation pending for generic updates, currently focusing on Auth
-        // But we can update the 'profile' document if needed.
-        return { success: false, message: "Update profile not fully implemented in this phase" };
+        try {
+            // Update name in Account if provided
+            if (updates.name) {
+                await account.updateName(updates.name);
+            }
+
+            // Update profile document
+            if (currentUser.profile && (updates.phone || updates.address)) {
+                const profileUpdates = {};
+                if (updates.phone) profileUpdates.phone = updates.phone;
+                if (updates.address) profileUpdates.address = updates.address;
+
+                await databases.updateDocument(
+                    APPWRITE_CONFIG.DATABASE_ID,
+                    APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
+                    currentUser.profile.$id,
+                    profileUpdates
+                );
+            }
+
+            await checkUserStatus(); // Refresh local state
+            return { success: true, message: "Profile updated successfully" };
+        } catch (error) {
+            console.error("Profile update error:", error);
+            return { success: false, message: parseAppwriteError(error) };
+        }
     };
 
     // Legacy support for orders (local simulation for now as requested)
@@ -121,29 +144,24 @@ export const AuthProvider = ({ children }) => {
     // For now, we will just use local state behavior for the UI if needed, 
     // or simply acknowledge the order locally.
     const addOrder = (order) => {
-        // In a real app, we would push to 'orders' collection.
-        // Since user wanted "Auth and User Database Only", we could store it in the profile 'orders' string?
-        // Let's try to append to profile orders if possible.
-        if (!currentUser || !currentUser.profile) return { success: false };
+        if (!currentUser) return { success: false, message: 'User not logged in' };
 
         try {
-            const currentOrders = currentUser.profile.orders ? JSON.parse(currentUser.profile.orders) : [];
+            const storageKey = `orders_${currentUser.$id}`;
+            const storedOrders = localStorage.getItem(storageKey);
+            const currentOrders = storedOrders ? JSON.parse(storedOrders) : [];
             const newOrders = [...currentOrders, order];
 
-            databases.updateDocument(
-                APPWRITE_CONFIG.DATABASE_ID,
-                APPWRITE_CONFIG.COLLECTION_ID_PROFILES,
-                currentUser.profile.$id,
-                {
-                    orders: JSON.stringify(newOrders)
-                }
-            ).then(() => {
-                checkUserStatus(); // Refresh
-            });
-            return { success: true, message: 'Order saved to profile' };
+            localStorage.setItem(storageKey, JSON.stringify(newOrders));
+
+            // Notify listeners or just return success
+            // In a more complex app, we might want to update a state that ProfilePage subscribes to,
+            // but for now, ProfilePage will fetch on mount.
+
+            return { success: true, message: 'Order saved locally' };
         } catch (e) {
             console.error("Order save error", e);
-            return { success: true, message: 'Order processed locally' };
+            return { success: false, message: 'Failed to save order' };
         }
     };
 

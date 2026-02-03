@@ -42,7 +42,7 @@ const PaymentPage = () => {
             items: cart,
             total: total,
             method: activeMethod,
-            status: 'Processing'
+            status: 'Paid'
         };
 
         // Add to user history if logged in
