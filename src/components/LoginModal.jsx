@@ -3,16 +3,7 @@ import { useAuth } from '../context/AuthContext';
 
 const LoginModal = ({ isOpen, onClose }) => {
     const [activeTab, setActiveTab] = useState('login');
-    const { login, register, currentUser } = useAuth();
-
-    // Close modal if user is already logged in
-    React.useEffect(() => {
-        if (currentUser && isOpen) {
-            onClose();
-        }
-    }, [currentUser, isOpen, onClose]);
-
-    if (currentUser) return null; // Prevent rendering if logged in
+    const { login, register } = useAuth();
 
     // Login State
     const [loginEmail, setLoginEmail] = useState('baarri252@gmail.com');
