@@ -102,6 +102,7 @@ const Header = ({ onLoginClick, onCartClick }) => {
                             <li><Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
                             <li><a href="/#brands" onClick={() => setIsMobileMenuOpen(false)}>Brands</a></li>
                             <li><a href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Perfumes</a></li>
+                            <li><a href="/#reviews" onClick={() => setIsMobileMenuOpen(false)}>Reviews</a></li>
                             <li><Link to="/our-story" onClick={() => setIsMobileMenuOpen(false)}>Our Story</Link></li>
                             <li><Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link></li>
                         </ul>

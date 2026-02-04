@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
-    const { addToCart } = useCart();
+    const { addToCart, isCartOpen } = useCart();
 
     const handleAddToCart = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        addToCart(product);
+        if (!isCartOpen) {
+            addToCart(product);
+        }
     };
 
     const displayPrice = product.originalPrice ? (
@@ -48,7 +50,7 @@ const ProductCard = ({ product }) => {
                     </div>
                     <div className="product-price">
                         {displayPrice}
-                        <button className="add-to-cart" onClick={handleAddToCart}>
+                        <button className="add-to-cart" onClick={handleAddToCart} disabled={isCartOpen}>
                             <i className="fas fa-shopping-cart"></i>
                         </button>
                     </div>

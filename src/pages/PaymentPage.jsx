@@ -52,7 +52,7 @@ const PaymentPage = () => {
         }
 
         // Simulate payment processing
-        const newOrderId = `UDUD-2026-${Math.floor(10000 + Math.random() * 90000)}`;
+        const newOrderId = `UDUG-2026-${Math.floor(10000 + Math.random() * 90000)}`;
         setOrderId(newOrderId);
 
         // Create order object with customer snapshot
@@ -223,7 +223,7 @@ const PaymentPage = () => {
                     <div className="payment-success-modal active">
                         <div className="success-icon"><i className="fas fa-check"></i></div>
                         <h2>Payment Successful!</h2>
-                        <p>Thank you for your purchase from UDUD PERFUMES.</p>
+                        <p>Thank you for your purchase from UDUG PERFUMES.</p>
                         <div className="order-details">
                             <h4>Order Details</h4>
                             <div className="order-details-row"><span>Order ID:</span><span>{orderId}</span></div>

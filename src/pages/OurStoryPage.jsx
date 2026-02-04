@@ -54,7 +54,7 @@ const OurStoryPage = () => {
                         <span className="section-subtitle">Since 2010</span>
                         <h2 style={{ fontSize: '36px', marginBottom: '25px' }}>The Essence of Somalia</h2>
                         <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#555', marginBottom: '20px' }}>
-                            Founded in 2010, UDUD PERFUMES began with a single mission: to bring the ancient, aromatic traditions of Somalia to the modern world. For centuries, Somali "Catars" and "Uunsi" have been more than just scents—they are symbols of hospitality, culture, and identity.
+                            Founded in 2010, UDUG PERFUMES began with a single mission: to bring the ancient, aromatic traditions of Somalia to the modern world. For centuries, Somali "Catars" and "Uunsi" have been more than just scents—they are symbols of hospitality, culture, and identity.
                         </p>
                         <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#555', marginBottom: '20px' }}>
                             We started as a small boutique in Mogadishu, working with local artisans who mastered the art of blending frankincense from the mountains of Sanaag with exotic spices and oils. Today, we are proud to be the bridge between traditional heritage and international luxury.

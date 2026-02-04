@@ -36,7 +36,7 @@ export const CartProvider = ({ children }) => {
         }
 
         saveCart(newCart);
-        setIsCartOpen(true); // Open cart when item added
+        // Do NOT open cart when item added
     };
 
     const removeFromCart = (productId) => {

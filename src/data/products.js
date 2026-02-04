@@ -280,7 +280,7 @@ export const products = [
         brand: "Lattafa perfume",
         price: 115.00,
         originalPrice: 135.00,
-        image: "/images/23.jpeg",
+        image: "/images/27.jpeg",
         category: "perfume",
         tag: "Luxury",
         description: "Bade'e Al Oud (Oud for Glory) is a highly prestigious oud perfume with a strong signature. It is one of Lattafa's newest high-end perfumes. It also has good projection and very long-lasting.",

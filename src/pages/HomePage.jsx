@@ -90,9 +90,14 @@ const HomePage = () => {
             {/* Brands Section - Now a sleek bridge */}
             <section className="brands" id="brands" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
                 <div className="container-narrow">
-
+                    <div className="section-header brands-header" style={{ textAlign: 'center', marginBottom: '32px' }}>
+                        <span className="section-subtitle" style={{ color: 'var(--accent-gold)', fontWeight: 700, letterSpacing: '2px', fontSize: '15px' }}>Our Brands</span>
+                        <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--primary-color)', margin: '10px 0 0 0', letterSpacing: '1.5px', textTransform: 'uppercase', lineHeight: 1.1, textShadow: '0 2px 12px #f9e7b3' }}>
+                            Discover Somali & World-Class Brands
+                        </h2>
+                    </div>
                     <div className="brands-grid">
-                        <div className="brand-card"><h4>Uunsi Soomaali</h4></div>
+                        <div className="brand-card"><h4>Uunsi</h4></div>
                         <div className="brand-card"><h4>Catar</h4></div>
                         <div className="brand-card"><h4>Asad</h4></div>
                         <div className="brand-card"><h4>Dior</h4></div>
@@ -132,8 +137,8 @@ const HomePage = () => {
                             <div className="testimonial-author">
                                 <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Customer" />
                                 <div className="author-info">
-                                    <h4>Fatima Ahmed</h4>
-                                    <p>Garowe, Somalia</p>
+                                    <h4>Bisharo Shiikh</h4>
+                                    <p>Laasconod,Sool</p>
                                 </div>
                             </div>
                         </div>
@@ -145,8 +150,8 @@ const HomePage = () => {
                             <div className="testimonial-author">
                                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Customer" />
                                 <div className="author-info">
-                                    <h4>Mustafa Barre</h4>
-                                    <p>Hargeisa, Somalia</p>
+                                    <h4>Ali Saciid</h4>
+                                    <p>Baladweyne,Hiiraan</p>
                                 </div>
                             </div>
                         </div>
@@ -158,8 +163,8 @@ const HomePage = () => {
                             <div className="testimonial-author">
                                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Customer" />
                                 <div className="author-info">
-                                    <h4>Zahra Yusuf</h4>
-                                    <p>Mogadishu, Somalia</p>
+                                    <h4>Anisa Abdi</h4>
+                                    <p>Hodan,Banaadir</p>
                                 </div>
                             </div>
                         </div>
