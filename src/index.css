@@ -1,3 +1,27 @@
+/* Product Card Rating Stars */
+.product-rating {
+    margin: 8px 0 4px 0;
+    font-size: 1.1em;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.product-rating .star.full {
+    color: var(--accent-gold);
+}
+.product-rating .star.half {
+    color: var(--accent-gold);
+    position: relative;
+}
+.product-rating .star.empty {
+    color: #e0e0e0;
+}
+.product-rating .rating-value {
+    color: var(--medium-gray);
+    font-size: 0.95em;
+    margin-left: 6px;
+}
 /* Global Stylesheet for Perfume E-commerce Website */
 /* Color Palette & Variables */
 :root {
@@ -1083,8 +1107,8 @@ nav ul li a:hover::after {
 }
 
 .product-card {
-    background-color: #fff;
-    border: 1px solid #eee;
+    background-color: var(--secondary-color);
+    border: 2px solid var(--primary-color);
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;

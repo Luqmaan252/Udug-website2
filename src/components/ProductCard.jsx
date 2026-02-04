@@ -20,6 +20,12 @@ const ProductCard = ({ product }) => {
         <div className="price">${product.price.toFixed(2)}</div>
     );
 
+    // Star rating logic
+    const rating = product.rating || 4.5;
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
     return (
         <div className="product-card">
             <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -34,6 +40,12 @@ const ProductCard = ({ product }) => {
                 <div className="product-info">
                     <div className="product-brand">{product.brand}</div>
                     <h3 className="product-name">{product.name}</h3>
+                    <div className="product-rating">
+                        {Array(fullStars).fill().map((_, i) => <span key={i} className="star full">★</span>)}
+                        {halfStar && <span className="star half">★</span>}
+                        {Array(emptyStars).fill().map((_, i) => <span key={i + fullStars + 1} className="star empty">★</span>)}
+                        <span className="rating-value">{rating.toFixed(1)}</span>
+                    </div>
                     <div className="product-price">
                         {displayPrice}
                         <button className="add-to-cart" onClick={handleAddToCart}>
